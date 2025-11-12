@@ -67,7 +67,7 @@ export default function SkipperForm() {
 
   return (
     <div className="bg-white p-8 shadow-lg">
-      <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+      <h3 className="text-2xl text-gray-900 mb-6 font-nunito font-black">
         {t('formTitle')}
       </h3>
       
@@ -90,7 +90,7 @@ export default function SkipperForm() {
             id="firstName"
             {...register('firstName')}
             placeholder={t('firstName')}
-            className={`w-full px-4 py-2 border focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-sm ${
+            className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.firstName ? 'border-red-500' : 'border-gray-300'
             }`}
           />
@@ -105,7 +105,7 @@ export default function SkipperForm() {
             id="lastName"
             {...register('lastName')}
             placeholder={t('lastName')}
-            className={`w-full px-4 py-2 border focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-sm ${
+            className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.lastName ? 'border-red-500' : 'border-gray-300'
             }`}
           />
@@ -120,7 +120,7 @@ export default function SkipperForm() {
             id="company"
             {...register('company')}
             placeholder={t('company')}
-            className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-sm"
+            className="w-full px-4 py-2 border border-gray-300 focus:outline-none placeholder:text-sm"
           />
         </div>
 
@@ -130,7 +130,7 @@ export default function SkipperForm() {
             id="email"
             {...register('email')}
             placeholder={t('email')}
-            className={`w-full px-4 py-2 border focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-sm ${
+            className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.email ? 'border-red-500' : 'border-gray-300'
             }`}
           />
@@ -145,7 +145,7 @@ export default function SkipperForm() {
             id="country"
             {...register('country')}
             placeholder={t('country')}
-            className={`w-full px-4 py-2 border focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-sm ${
+            className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.country ? 'border-red-500' : 'border-gray-300'
             }`}
           />
@@ -157,7 +157,7 @@ export default function SkipperForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gray-800 text-white py-3 px-6 font-medium hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-gray-800 text-white py-3 px-6 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed  font-nunito font-bold"
         >
           {isSubmitting ? (t('submitting') || 'Submitting...') : t('submit')}
         </button>

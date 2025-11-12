@@ -9,16 +9,29 @@ export default async function SkipperPage() {
   return (
     <div className="min-h-screen bg-[#f0ecec]">
       {/* Header with Language Switcher */}
-      <div className="absolute top-4 right-4 z-50">
-        <LanguageSwitcher />
+      <div className="absolute top-12 left-0 right-0 z-50 flex items-center justify-between px-4 max-w-[1080px] mx-auto w-full">
+        <div className="flex items-center">
+          <Image
+            src="/images/sealord_logo.svg"
+            alt="Sealord Logo"
+            width={108}
+            height={32}
+            className="w-28 h-auto"
+            priority
+            sizes="(max-width: 640px) 96px, (max-width: 1024px) 144px, 144px"
+          />
+        </div>
+        <div>
+          <LanguageSwitcher />
+        </div>
       </div>
 
       {/* Hero Section */}
-      <section className="relative text-white pt-20 pb-16 px-4 sm:px-6 lg:px-8 min-h-[800px] flex items-end bg-[#252f62]">
+      <section className="relative text-white pt-20 pb-16 px-4 sm:px-6 lg:px-8 min-h-[500px] sm:min-h-[600px] lg:min-h-[800px] flex items-end bg-[#001a72]">
         {/* Background Image */}
-        <div className="absolute inset-0 z-0 max-w-[1600px] mx-auto">
+        <div className="absolute inset-0 z-0 max-w-[1080px] mx-auto">
           <Image
-            src="/images/bb3.jpg"
+            src="/images/bb4.jpg"
             alt="Skipper Banner"
             fill
             className="object-contain"
@@ -30,35 +43,26 @@ export default async function SkipperPage() {
         <div className="relative z-10 max-w-[1080px] mx-auto w-full">
           <div className="flex flex-col lg:flex-row items-end justify-between gap-8">
             {/* Left: Brand Name and Tagline */}
-            <div className="flex-2 text-center lg:text-left">
-              <p className="text-xl md:text-5xl mb-2 drop-shadow-md">
+            <div className="flex-2 text-center lg:text-left font-nunito font-extrabold">
+              <p className="text-2xl md:text-5xl md:mb-2 drop-shadow-md">
                 {t("tagline1")}
               </p>
-              <p className="text-xl md:text-5xl drop-shadow-md">
+              <p className="text-2xl md:text-5xl drop-shadow-md">
                 {t("tagline2")}
               </p>
             </div>
 
             {/* Right: Product Images */}
-            <div className="flex-1 flex gap-4 justify-center lg:justify-end">
-              <div className="w-48 h-64 bg-white rounded-lg shadow-xl flex items-center justify-center relative overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=600&fit=crop"
-                  alt="Skipper Dog Food"
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 768px) 192px, 192px"
-                />
-              </div>
-              <div className="w-48 h-64 bg-white rounded-lg shadow-xl flex items-center justify-center relative overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&h=600&fit=crop"
-                  alt="Skipper Cat Food"
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 768px) 192px, 192px"
-                />
-              </div>
+            <div className="flex-1 justify-center lg:justify-end hidden lg:flex">
+              <Image
+                src="/images/petfoodpak1.png"
+                alt="Skipper Dog Food"
+                width={288}
+                height={244}
+                className="object-cover rounded-lg w-72 h-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+                sizes="(max-width: 640px) 192px, (max-width: 1024px) 288px, 288px "
+                priority
+              />
             </div>
           </div>
         </div>
@@ -69,8 +73,8 @@ export default async function SkipperPage() {
         <div className="max-w-[1080px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Left: Introduction */}
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <div className="font-montserrat font-medium">
+              <h2 className="text-4xl md:text-[45px] text-gray-900 mb-6 font-nunito font-black">
                 {t("heroTitle")}
               </h2>
               <p className="text-lg text-gray-700 mb-4">{t("intro1")}</p>
@@ -86,52 +90,92 @@ export default async function SkipperPage() {
       {/* Features Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-[1080px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center text-sm">
             {/* Feature 1 */}
-            <div className="p-6 text-white bg-[#d19d51]">
-              <div className="text-4xl mb-4">🌿</div>
-              <h3 className="font-bold text-lg mb-2">{t("feature1Title")}</h3>
-              <p className="text-sm">{t("feature1Desc")}</p>
+            <div className="p-6 bg-[#d19d51]">
+              <div className="mb-8 flex justify-center items-center">
+                <Image
+                  src="/images/f_1.svg"
+                  alt="Feature 1 Icon"
+                  width={72}
+                  height={72}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <p>{t("feature1Desc")}</p>
             </div>
 
             {/* Feature 2 */}
-            <div className="p-6 text-white bg-[#009ba4]">
-              <div className="text-4xl mb-4">💪</div>
-              <h3 className="font-bold text-lg mb-2">{t("feature2Title")}</h3>
-              <p className="text-sm">{t("feature2Desc")}</p>
+            <div className="p-6 bg-[#009ba4]">
+              <div className="mb-8 flex justify-center items-center">
+                <Image
+                  src="/images/f_2.svg"
+                  alt="Feature 2 Icon"
+                  width={72}
+                  height={72}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <p>{t("feature2Desc")}</p>
             </div>
 
             {/* Feature 3 */}
-            <div className="p-6 text-white bg-[#ffd35f]">
-              <div className="text-4xl mb-4">⬇️</div>
-              <h3 className="font-bold text-lg mb-2">{t("feature3Title")}</h3>
-              <p className="text-sm">{t("feature3Desc")}</p>
+            <div className="p-6 bg-[#ffd35f]">
+              <div className="mb-8 flex justify-center items-center">
+                <Image
+                  src="/images/f_3.svg"
+                  alt="Feature 3 Icon"
+                  width={72}
+                  height={72}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <p>{t("feature3Desc")}</p>
             </div>
 
             {/* Feature 4 */}
-            <div className="p-6 text-white bg-[#c76aa7]">
-              <div className="text-4xl mb-4">🐟</div>
-              <h3 className="font-bold text-lg mb-2">{t("feature4Title")}</h3>
-              <p className="text-sm">{t("feature4Desc")}</p>
+            <div className="p-6 bg-[#c76aa7]">
+              <div className="mb-8 flex justify-center items-center">
+                <Image
+                  src="/images/f_4.svg"
+                  alt="Feature 4 Icon"
+                  width={72}
+                  height={72}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <p>{t("feature4Desc")}</p>
             </div>
 
             {/* Feature 5 */}
-            <div className="p-6 text-white bg-[#95d0c7]">
-              <div className="text-4xl mb-4">🐠</div>
-              <h3 className="font-bold text-lg mb-2">{t("feature5Title")}</h3>
-              <p className="text-sm">{t("feature5Desc")}</p>
+            <div className="p-6 bg-[#95d0c7]">
+              <div className="mb-8 flex justify-center items-center">
+                <Image
+                  src="/images/f_5.svg"
+                  alt="Feature 5 Icon"
+                  width={72}
+                  height={72}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <p>{t("feature5Desc")}</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer Section */}
-      <section className="bg-[#3ebac8] relative w-full">
+      <section className="bg-[#32c2d9] relative w-full">
         {/* Upper Section */}
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 relative z-50">
           <div className="max-w-[1080px] py-16 mx-auto">
             <div className="max-w-[400px] flex flex-col gap-2">
-              <h3 className="text-xl font-bold">
+              <h3 className="text-xl font-nunito font-black">
                 {t("footerTitle")}
               </h3>
               <p className="text-sm">
@@ -143,13 +187,13 @@ export default async function SkipperPage() {
 
         {/* Lower Section */}
         {/* Lower Footer Section with waves and taglines */}
-        <div className="bg-[#202c4f] py-16 text-white relative px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#001b72] py-16 text-white relative px-4 sm:px-6 lg:px-8">
           {/* Decorative filled wave using SVG mask */}
           <div
-            className="wave-fill absolute top-0 left-0 w-full h-full z-10"
+            className="wave-fill animate-wave absolute top-0 left-0 w-full h-full z-10"
             style={{
               height: "60px",
-              background: "#1c2a54",
+              background: "#001b72",
               // Use SVG as a repeating mask for the wave effect (for browsers supporting mask)
               mask: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'><path d='M0 10 Q 10 0 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10 V20 H0 Z' fill='white'/></svg>\") repeat-x",
               // For Webkit browsers (Safari, Chrome), use a separate property
@@ -157,6 +201,8 @@ export default async function SkipperPage() {
                 "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'><path d='M0 10 Q 10 0 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10 V20 H0 Z' fill='white'/></svg>\") repeat-x",
               maskSize: "120px 20px",
               WebkitMaskSize: "120px 20px",
+              maskPosition: "0 0",
+              WebkitMaskPosition: "0 0",
               position: "absolute",
               top: "-20px",
               left: 0,
@@ -165,38 +211,47 @@ export default async function SkipperPage() {
           />
           {/* Decorative line wave above, for accent */}
           <div
-            className="wave-line absolute top-[-22px] left-0 w-full h-full z-10"
+            className="wave-line animate-wave absolute top-[-22px] left-0 w-full h-full z-10"
             style={{
               height: "20px",
-              background: "#3ebac8",
-              mask: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'><path d='M0 10 Q 10 0 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg>\") repeat-x",
+              background: "#32c2d9",
+              mask: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'><path d='M0 10 Q 10 0 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>\") repeat-x",
               WebkitMask:
-                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'><path d='M0 10 Q 10 0 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg>\") repeat-x",
+                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'><path d='M0 10 Q 10 0 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>\") repeat-x",
               maskSize: "120px 20px",
               WebkitMaskSize: "120px 20px",
+              maskPosition: "0 0",
+              WebkitMaskPosition: "0 0",
             }}
           />
-          {/* Decorative dark round shape overlapping waves */}
-          <div className="absolute left-1/2 top-[-40px] -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#202c4f]" />
+          {/* boat image */}
+          <Image
+            src="/images/boat.svg"
+            alt="Boat"
+            width={160}
+            height={160}
+            className="absolute left-1/2 top-[-55px] w-40 h-40 hidden sm:block animate-boat-bob"
+            draggable={false}
+            priority
+          />
 
           {/* Slogan/taglines below waves */}
-          <div className="max-w-[1080px] mx-auto">
+          <div className="max-w-[1080px] mx-auto relative z-50 font-nunito font-black text-3xl">
             {/* Brand tagline 1 */}
-            <h3 className="text-3xl font-bold">{t("tagline1")}</h3>
+            <h3>{t("tagline1")}</h3>
             {/* Brand tagline 2 */}
-            <h3 className="text-3xl font-bold">{t("tagline2")}</h3>
+            <h3>{t("tagline2")}</h3>
           </div>
         </div>
 
         {/* Floating decorative fish image overlay, only on large screens */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full lg:w-[1080px] justify-end items-center px-4 lg:px-0 hidden lg:flex">
           <Image
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
-            alt="Skipper fish"
+            src="/images/footerpkg.png"
+            alt="Product Package"
             width={320}
             height={200}
-            style={{ objectFit: "cover" }}
-            className="w-52 md:w-60 h-[350px]"
+            className="w-52 md:w-62 h-auto drop-shadow-[0_20px_18px_rgba(20,37,52,0.35)]"
             priority
           />
         </div>

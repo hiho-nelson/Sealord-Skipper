@@ -24,10 +24,10 @@ export default function LanguageSwitcher() {
         <Link
           key={loc}
           href={`/${loc}${pathnameWithoutLocale}`}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+          className={`px-4 py-2 font-nunito font-extrabold ${
             locale === loc
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+              ? 'text-white underline underline-offset-4'
+              : 'text-blue-300 dark:text-blue-400 hover:text-blue-200 dark:hover:text-blue-300'
           }`}
         >
           {languageNames[loc]}
