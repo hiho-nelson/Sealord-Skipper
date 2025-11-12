@@ -1,0 +1,46 @@
+{
+  "HomePage": {
+    "title": "Welcome to Sealord Landing",
+    "description": "This is a simple test page for multi-language support.",
+    "greeting": "Hello!",
+    "switchLanguage": "Switch Language"
+  },
+  "SkipperPage": {
+    "tagline1": "For the love of seafood",
+    "tagline2": "For the love of pets",
+    "heroTitle": "Something Beautiful Is Coming for Your Pets",
+    "intro1": "Get ready - Skipper is almost here! Proudly 100% New Zealand-made, Skipper is redefining pet nutrition with premium, seafood and inspired recipes crafted for the love of pets and the love of the sea.",
+    "intro2": "We're not quite ready to lift the lid just yet, but trust us, your pets will thank you for being first to know. Sign up and be the first to discover when Skipper launches. Fresh, local, and full of heart, it's everything your furry friend deserves.",
+    "formTitle": "Yes please - Keep me informed.",
+    "firstName": "Your first name*",
+    "lastName": "Your last name*",
+    "company": "Company (if applicable)",
+    "email": "Email address*",
+    "country": "Country*",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "mandatoryNote": "* Mandatory fields",
+    "formSuccess": "Thank you! We will keep you informed.",
+    "formError": "Something went wrong. Please try again.",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "countryRequired": "Country is required"
+    },
+    "feature1Title": "PRODUCT OF NEW ZEALAND",
+    "feature1Desc": "Carefully crafted where purity endures, at the edge of the world's wild, untamed oceans.",
+    "feature2Title": "HIGH QUALITY PROTEIN",
+    "feature2Desc": "High-quality protein supports strength, energy, and lifelong health for happy, thriving pets.",
+    "feature3Title": "LOW ALLERGEN CONTENT",
+    "feature3Desc": "Low-allergen pet food supports digestion, reduces sensitivities, and promotes healthier, active pets.",
+    "feature4Title": "ALL NATURAL INGREDIENTS",
+    "feature4Desc": "Skipper Pet Food uses only natural, nutrient-rich ingredients sourced from fish sustainably caught by Sealord.",
+    "feature5Title": "RICH IN OMEGA-3",
+    "feature5Desc": "Omega-3 supports healthy skin, shiny coats, joint mobility, and overall pet wellbeing.",
+    "footerTitle": "Made by Sealord - New Zealand's No.1 Seafood Company",
+    "footerDesc": "With decades of experience and deep respect for the ocean, Sealord crafts sustainably caught seafood for pets who deserve the best. Every Skipper recipe is made with care, innovation, and a commitment to quality - protecting our oceans for generations to come."
+  }
+}
+
