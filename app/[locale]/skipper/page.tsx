@@ -31,10 +31,10 @@ export default async function SkipperPage() {
           <div className="flex flex-col lg:flex-row items-end justify-between gap-8">
             {/* Left: Brand Name and Tagline */}
             <div className="flex-2 text-center lg:text-left">
-              <p className="text-xl md:text-6xl mb-2 drop-shadow-md">
+              <p className="text-xl md:text-5xl mb-2 drop-shadow-md">
                 {t("tagline1")}
               </p>
-              <p className="text-xl md:text-6xl drop-shadow-md">
+              <p className="text-xl md:text-5xl drop-shadow-md">
                 {t("tagline2")}
               </p>
             </div>
@@ -165,7 +165,7 @@ export default async function SkipperPage() {
           />
           {/* Decorative line wave above, for accent */}
           <div
-            className="wave-line absolute top-[-24px] left-0 w-full h-full z-10"
+            className="wave-line absolute top-[-22px] left-0 w-full h-full z-10"
             style={{
               height: "20px",
               background: "#3ebac8",
