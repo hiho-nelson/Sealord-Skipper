@@ -58,38 +58,77 @@ export async function POST(request: NextRequest) {
     const adminEmail = process.env.RESEND_ADMIN_EMAIL || "thomas@hiho.co.nz";
     const audienceId = process.env.RESEND_AUDIENCE_ID; // Optional: specific audience ID
 
+    // Helper function to add delay between requests (minimum 500ms to respect 2 req/s limit)
+    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
     // Helper function to handle rate limiting with retry
-    const handleRateLimit = async <T>(
+    // Handles both Resend SDK error objects ({ error }) and thrown exceptions
+    const handleRateLimit = async <T extends { error?: unknown }>(
       fn: () => Promise<T>,
-      retries = 2
+      retries = 3
     ): Promise<T> => {
-      let lastError: unknown;
+      let lastResult: T | null = null;
+      let lastError: unknown = null;
 
       for (let i = 0; i <= retries; i++) {
         try {
-          return await fn();
+          const result = await fn();
+          lastResult = result;
+
+          // Check if Resend SDK returned an error object
+          if (result.error) {
+            const error = result.error as {
+              statusCode?: number;
+              name?: string;
+              message?: string;
+            };
+
+            const statusCode = error?.statusCode;
+
+            // If it's a rate limit error (429), retry with exponential backoff
+            if (statusCode === 429 && i < retries) {
+              lastError = error;
+              // Exponential backoff: 500ms, 1000ms, 2000ms
+              const backoffDelay = Math.pow(2, i) * 500;
+              console.warn(
+                `Resend rate limit hit (attempt ${i + 1}/${retries + 1}), retrying in ${backoffDelay}ms...`
+              );
+              await delay(backoffDelay);
+              continue;
+            }
+
+            // For non-rate-limit errors or final attempt, return the result with error
+            return result;
+          }
+
+          // Success - no error in result
+          return result;
         } catch (error: unknown) {
           lastError = error;
 
-          const err = error as { statusCode?: number; status?: number; response?: { headers?: Record<string, string> } };
+          // Handle thrown exceptions (shouldn't happen with Resend SDK, but just in case)
+          const err = error as { statusCode?: number; status?: number };
           const status = err?.statusCode || err?.status;
 
           if (status === 429 && i < retries) {
-            // Try reading reset header
-            const reset = Number(err?.response?.headers?.["x-ratelimit-reset"]);
-
-            // If header exists, wait exactly the required cooldown
-            const delay = reset ? reset * 1000 : Math.pow(2, i) * 500;
-
-            await new Promise((resolve) => setTimeout(resolve, delay));
+            const backoffDelay = Math.pow(2, i) * 500;
+            console.warn(
+              `Resend rate limit exception (attempt ${i + 1}/${retries + 1}), retrying in ${backoffDelay}ms...`
+            );
+            await delay(backoffDelay);
             continue;
           }
 
+          // Re-throw if not rate limit or final attempt
           throw error;
         }
       }
 
-      throw lastError;
+      // If we exhausted retries, return last result or throw last error
+      if (lastResult) {
+        return lastResult;
+      }
+      throw lastError || new Error("Rate limit retries exhausted");
     };
 
     // Check if contact already exists before proceeding
@@ -100,18 +139,26 @@ export async function POST(request: NextRequest) {
         resend.contacts.get({ email: formData.email })
       );
 
-      if (existingContact && !existingContact.error) {
+      // Check for error in Resend response
+      if (existingContact.error) {
+        const error = existingContact.error as { statusCode?: number; message?: string };
+        // If contact doesn't exist (404), that's fine - we'll create it
+        if (error.statusCode !== 404) {
+          console.error("Error checking contact:", existingContact.error);
+          // If we can't check, we'll proceed anyway (fail open)
+        }
+      } else if (existingContact.data) {
+        // Contact exists
         contactExists = true;
       }
     } catch (getError: unknown) {
-      const err = getError as { statusCode?: number };
-      // If contact doesn't exist (404), that's fine - we'll create it
-      // Only log other errors
-      if (err?.statusCode !== 404) {
-        console.error("Error checking contact:", getError);
-        // If we can't check, we'll proceed anyway (fail open)
-      }
+      // Fallback for unexpected exceptions
+      console.error("Unexpected error checking contact:", getError);
+      // Proceed anyway (fail open)
     }
+
+    // Add delay before next API call to respect rate limits
+    await delay(500);
 
     // If contact already exists, return error code (message will be handled by frontend based on locale)
     if (contactExists) {
@@ -152,10 +199,34 @@ export async function POST(request: NextRequest) {
 
     // Create new contact
     try {
-      await handleRateLimit(() => resend.contacts.create(contactData));
+      const createResult = await handleRateLimit(() =>
+        resend.contacts.create(contactData)
+      );
+
+      // Check for error in Resend response
+      if (createResult.error) {
+        const error = createResult.error as {
+          statusCode?: number;
+          message?: string;
+        };
+        // If contact was created between check and create (race condition), return error code
+        if (
+          error.statusCode === 409 ||
+          error.message?.includes("already exists")
+        ) {
+          return NextResponse.json(
+            {
+              code: "ALREADY_REGISTERED",
+            },
+            { status: 409 }
+          );
+        }
+        // For other errors, log but continue (we still want to send the email)
+        console.error("Failed to create contact:", createResult.error);
+      }
     } catch (createError: unknown) {
+      // Fallback for unexpected exceptions
       const err = createError as { statusCode?: number; message?: string };
-      // If contact was created between check and create (race condition), return error code
       if (err?.statusCode === 409 || err?.message?.includes("already exists")) {
         return NextResponse.json(
           {
@@ -164,9 +235,11 @@ export async function POST(request: NextRequest) {
           { status: 409 }
         );
       }
-      // For other errors, log but continue (we still want to send the email)
-      console.error("Failed to create contact:", createError);
+      console.error("Failed to create contact (exception):", createError);
     }
+
+    // Add delay before next API call to respect rate limits
+    await delay(500);
 
     // Send confirmation email to user (with rate limit handling)
     const userEmailResult = await handleRateLimit(() =>
@@ -178,10 +251,39 @@ export async function POST(request: NextRequest) {
       })
     );
 
+    // Check if email was sent successfully
+    if (userEmailResult.error) {
+      const error = userEmailResult.error as {
+        statusCode?: number;
+        name?: string;
+        message?: string;
+      };
+      console.error("Resend API error sending user email:", userEmailResult.error);
+      
+      // If it's a rate limit error after retries, return a more specific error
+      if (error.statusCode === 429) {
+        return NextResponse.json(
+          {
+            error:
+              "Service temporarily unavailable due to high demand. Please try again in a moment.",
+          },
+          { status: 503 } // Service Unavailable
+        );
+      }
+      
+      return NextResponse.json(
+        { error: "Failed to send confirmation email" },
+        { status: 500 }
+      );
+    }
+
+    // Add delay before next API call to respect rate limits
+    await delay(500);
+
     // Send notification email to admin (optional, only if admin email is configured)
     if (adminEmail && adminEmail !== fromEmail) {
       try {
-        await handleRateLimit(() =>
+        const adminEmailResult = await handleRateLimit(() =>
           resend.emails.send({
             from: fromEmail,
             to: adminEmail,
@@ -189,22 +291,22 @@ export async function POST(request: NextRequest) {
             html: getAdminNotificationEmail(formData),
           })
         );
+
+        // Check for error in Resend response
+        if (adminEmailResult.error) {
+          // Log but don't fail the request if admin email fails
+          console.error(
+            "Failed to send admin notification email:",
+            adminEmailResult.error
+          );
+        }
       } catch (adminEmailError) {
         // Log but don't fail the request if admin email fails
         console.error(
-          "Failed to send admin notification email:",
+          "Failed to send admin notification email (exception):",
           adminEmailError
         );
       }
-    }
-
-    // Check if email was sent successfully
-    if (userEmailResult.error) {
-      console.error("Resend API error:", userEmailResult.error);
-      return NextResponse.json(
-        { error: "Failed to send confirmation email" },
-        { status: 500 }
-      );
     }
 
     return NextResponse.json(
