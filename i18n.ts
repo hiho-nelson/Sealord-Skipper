@@ -10,9 +10,22 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
+  // Load common translations and page-specific translations
+  const [commonMessages, pageMessages] = await Promise.all([
+    import(`./messages/${locale}/_common.json`).then((m) => m.default).catch(() => ({})),
+    import(`./messages/${locale}.json`).then((m) => m.default).catch(() => ({}))
+  ]);
+
+  // Merge common translations with page-specific translations
+  // Common translations are prefixed with underscore to indicate they're shared
+  const messages = {
+    ...pageMessages,
+    _common: commonMessages
+  };
+
   return {
     locale,
-    messages: (await import(`./messages/${locale}.json`)).default
+    messages
   };
 });
 

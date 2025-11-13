@@ -17,16 +17,17 @@ type FormData = {
 
 export default function SkipperForm() {
   const t = useTranslations('SkipperPage');
+  const common = useTranslations('_common');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   // Zod schema for form validation
   const formSchema = z.object({
-    firstName: z.string().min(1, t('validation.firstNameRequired')),
-    lastName: z.string().min(1, t('validation.lastNameRequired')),
+    firstName: z.string().min(1, common('form.validation.firstNameRequired')),
+    lastName: z.string().min(1, common('form.validation.lastNameRequired')),
     company: z.string().optional(),
-    email: z.string().email(t('validation.emailInvalid')).min(1, t('validation.emailRequired')),
-    country: z.string().min(1, t('validation.countryRequired')),
+    email: z.string().email(common('form.validation.emailInvalid')).min(1, common('form.validation.emailRequired')),
+    country: z.string().min(1, common('form.validation.countryRequired')),
   });
   const {
     register,
@@ -73,23 +74,26 @@ export default function SkipperForm() {
       
       {submitStatus === 'success' && (
         <div className="mb-4 p-4 bg-green-50 border border-green-200 text-green-800">
-          {t('formSuccess') || 'Thank you! We will keep you informed.'}
+          {common('form.messages.success')}
         </div>
       )}
 
       {submitStatus === 'error' && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-800">
-          {t('formError') || 'Something went wrong. Please try again.'}
+          {common('form.messages.error')}
         </div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
+          <label htmlFor="firstName" className="sr-only">
+            {common('form.fields.firstName')}
+          </label>
           <input
             type="text"
             id="firstName"
             {...register('firstName')}
-            placeholder={t('firstName')}
+            placeholder={common('form.fields.firstName')}
             className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.firstName ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -100,11 +104,14 @@ export default function SkipperForm() {
         </div>
 
         <div>
+          <label htmlFor="lastName" className="sr-only">
+            {common('form.fields.lastName')}
+          </label>
           <input
             type="text"
             id="lastName"
             {...register('lastName')}
-            placeholder={t('lastName')}
+            placeholder={common('form.fields.lastName')}
             className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.lastName ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -115,21 +122,27 @@ export default function SkipperForm() {
         </div>
 
         <div>
+          <label htmlFor="company" className="sr-only">
+            {common('form.fields.company')}
+          </label>
           <input
             type="text"
             id="company"
             {...register('company')}
-            placeholder={t('company')}
+            placeholder={common('form.fields.company')}
             className="w-full px-4 py-2 border border-gray-300 focus:outline-none placeholder:text-sm"
           />
         </div>
 
         <div>
+          <label htmlFor="email" className="sr-only">
+            {common('form.fields.email')}
+          </label>
           <input
             type="email"
             id="email"
             {...register('email')}
-            placeholder={t('email')}
+            placeholder={common('form.fields.email')}
             className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.email ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -140,11 +153,14 @@ export default function SkipperForm() {
         </div>
 
         <div>
+          <label htmlFor="country" className="sr-only">
+            {common('form.fields.country')}
+          </label>
           <input
             type="text"
             id="country"
             {...register('country')}
-            placeholder={t('country')}
+            placeholder={common('form.fields.country')}
             className={`w-full px-4 py-2 border focus:outline-none placeholder:text-sm ${
               errors.country ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -157,12 +173,12 @@ export default function SkipperForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gray-800 text-white py-3 px-6 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed  font-nunito font-bold"
+          className="w-full bg-gray-800 text-white py-3 px-6 hover:bg-gray-900 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed  font-nunito font-bold"
         >
-          {isSubmitting ? (t('submitting') || 'Submitting...') : t('submit')}
+          {isSubmitting ? common('form.actions.submitting') : common('form.actions.submit')}
         </button>
         <p className="text-xs text-gray-500 text-center">
-          {t('mandatoryNote')}
+          {common('form.actions.mandatoryNote')}
         </p>
       </form>
     </div>

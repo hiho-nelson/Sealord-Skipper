@@ -1,0 +1,28 @@
+{
+  "form": {
+    "fields": {
+      "firstName": "Your first name*",
+      "lastName": "Your last name*",
+      "company": "Company (if applicable)",
+      "email": "Email address*",
+      "country": "Country*"
+    },
+    "actions": {
+      "submit": "Submit",
+      "submitting": "Submitting...",
+      "mandatoryNote": "* Mandatory fields"
+    },
+    "messages": {
+      "success": "Thank you! We will keep you informed.",
+      "error": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "countryRequired": "Country is required"
+    }
+  }
+}
+

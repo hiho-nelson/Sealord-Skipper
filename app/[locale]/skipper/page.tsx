@@ -2,12 +2,25 @@ import { getTranslations } from "next-intl/server";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import SkipperForm from "@/components/SkipperForm";
 import Image from "next/image";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return generatePageMetadata(locale, "SkipperPage");
+}
 
 export default async function SkipperPage() {
   const t = await getTranslations("SkipperPage");
 
   return (
     <div className="min-h-screen bg-[#f0ecec]">
+      {/* SEO h1 - visually hidden but accessible to search engines */}
+      <h1 className="sr-only">Sealord Skipper</h1>
+      
       {/* Header with Language Switcher */}
       <div className="absolute top-12 left-0 right-0 z-50 flex items-center justify-between px-4 max-w-[1080px] mx-auto w-full">
         <div className="flex items-center">
@@ -36,7 +49,7 @@ export default async function SkipperPage() {
             fill
             className="object-contain"
             priority
-            sizes="100vw"
+            sizes="(max-width: 1080px) 100vw, 1080px"
           />
         </div>
 
@@ -59,8 +72,9 @@ export default async function SkipperPage() {
                 alt="Skipper Dog Food"
                 width={288}
                 height={244}
-                className="object-cover rounded-lg w-72 h-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
-                sizes="(max-width: 640px) 192px, (max-width: 1024px) 288px, 288px "
+                className="object-cover rounded-lg w-72 aspect-288/244 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+                style={{ height: 'auto' }}
+                sizes="(max-width: 640px) 192px, (max-width: 1024px) 288px, 288px"
                 priority
               />
             </div>
@@ -78,6 +92,7 @@ export default async function SkipperPage() {
                 {t("heroTitle")}
               </h2>
               <p className="text-lg text-gray-700 mb-4">{t("intro1")}</p>
+              <h3 className="text-2xl md:text-[28px] text-gray-900 mb-2 font-nunito font-black">{t("intro2Title")}</h3>
               <p className="text-lg text-gray-700">{t("intro2")}</p>
             </div>
 
@@ -100,9 +115,9 @@ export default async function SkipperPage() {
                   width={72}
                   height={72}
                   className="w-full h-full object-contain"
-                  priority
                 />
               </div>
+              <h3 className="text-sm font-bold mb-2">{t("feature1Title")}</h3>
               <p>{t("feature1Desc")}</p>
             </div>
 
@@ -115,9 +130,9 @@ export default async function SkipperPage() {
                   width={72}
                   height={72}
                   className="w-full h-full object-contain"
-                  priority
                 />
               </div>
+              <h3 className="text-sm font-bold mb-2">{t("feature2Title")}</h3>
               <p>{t("feature2Desc")}</p>
             </div>
 
@@ -130,9 +145,9 @@ export default async function SkipperPage() {
                   width={72}
                   height={72}
                   className="w-full h-full object-contain"
-                  priority
                 />
               </div>
+              <h3 className="text-sm font-bold mb-2">{t("feature3Title")}</h3>
               <p>{t("feature3Desc")}</p>
             </div>
 
@@ -145,9 +160,9 @@ export default async function SkipperPage() {
                   width={72}
                   height={72}
                   className="w-full h-full object-contain"
-                  priority
                 />
               </div>
+              <h3 className="text-sm font-bold mb-2">{t("feature4Title")}</h3>
               <p>{t("feature4Desc")}</p>
             </div>
 
@@ -160,9 +175,9 @@ export default async function SkipperPage() {
                   width={72}
                   height={72}
                   className="w-full h-full object-contain"
-                  priority
                 />
               </div>
+              <h3 className="text-sm font-bold mb-2">{t("feature5Title")}</h3>
               <p>{t("feature5Desc")}</p>
             </div>
           </div>
@@ -232,7 +247,6 @@ export default async function SkipperPage() {
             height={160}
             className="absolute left-1/2 top-[-55px] w-40 h-40 hidden sm:block animate-boat-bob"
             draggable={false}
-            priority
           />
 
           {/* Slogan/taglines below waves */}
@@ -252,7 +266,6 @@ export default async function SkipperPage() {
             width={320}
             height={200}
             className="w-52 md:w-62 h-auto drop-shadow-[0_20px_18px_rgba(20,37,52,0.35)]"
-            priority
           />
         </div>
       </section>
