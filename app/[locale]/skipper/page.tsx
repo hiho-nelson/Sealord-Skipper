@@ -108,7 +108,7 @@ export default async function SkipperPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center text-sm">
             {/* Feature 1 */}
             <div className="p-6 bg-[#d19d51]">
-              <div className="mb-8 flex justify-center items-center">
+              <div className="mb-8 justify-center items-center sm:flex hidden">
                 <Image
                   src="/images/f_1.svg"
                   alt="Feature 1 Icon"
@@ -122,7 +122,7 @@ export default async function SkipperPage() {
 
             {/* Feature 2 */}
             <div className="p-6 bg-[#009ba4]">
-              <div className="mb-8 flex justify-center items-center">
+              <div className="mb-8 justify-center items-center sm:flex hidden">
                 <Image
                   src="/images/f_2.svg"
                   alt="Feature 2 Icon"
@@ -136,7 +136,7 @@ export default async function SkipperPage() {
 
             {/* Feature 3 */}
             <div className="p-6 bg-[#ffd35f]">
-              <div className="mb-8 flex justify-center items-center">
+              <div className="mb-8 justify-center items-center sm:flex hidden">
                 <Image
                   src="/images/f_3.svg"
                   alt="Feature 3 Icon"
@@ -150,7 +150,7 @@ export default async function SkipperPage() {
 
             {/* Feature 4 */}
             <div className="p-6 bg-[#c76aa7]">
-              <div className="mb-8 flex justify-center items-center">
+              <div className="mb-8 justify-center items-center sm:flex hidden">
                 <Image
                   src="/images/f_4.svg"
                   alt="Feature 4 Icon"
@@ -164,7 +164,7 @@ export default async function SkipperPage() {
 
             {/* Feature 5 */}
             <div className="p-6 bg-[#95d0c7]">
-              <div className="mb-8 flex justify-center items-center">
+              <div className="mb-8 justify-center items-center sm:flex hidden">
                 <Image
                   src="/images/f_5.svg"
                   alt="Feature 5 Icon"
