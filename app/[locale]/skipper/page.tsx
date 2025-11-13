@@ -19,7 +19,7 @@ export default async function SkipperPage() {
   return (
     <div className="min-h-screen bg-[#f0ecec]">
       {/* SEO h1 - visually hidden but accessible to search engines */}
-      <h1 className="sr-only">Sealord Skipper</h1>
+      <h1 className="sr-only hidden">Sealord Skipper</h1>
       
       {/* Header with Language Switcher */}
       <div className="absolute top-12 left-0 right-0 z-50 flex items-center justify-between px-4 max-w-[1080px] mx-auto w-full">
@@ -54,25 +54,25 @@ export default async function SkipperPage() {
         </div>
 
         <div className="relative z-10 max-w-[1080px] mx-auto w-full">
-          <div className="flex flex-col lg:flex-row items-end justify-between gap-8">
-            {/* Left: Brand Name and Tagline */}
-            <div className="flex-2 text-center lg:text-left font-nunito font-extrabold">
-              <p className="text-2xl md:text-5xl md:mb-2 drop-shadow-md">
+          <div className="flex flex-row items-end justify-between gap-8">
+            {/* Brand Name and Tagline */}
+            <div className="flex-2 lg:text-left text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-nunito font-extrabold">
+              <p className="md:mb-2 drop-shadow-md">
                 {t("tagline1")}
               </p>
-              <p className="text-2xl md:text-5xl drop-shadow-md">
+              <p className="drop-shadow-md">
                 {t("tagline2")}
               </p>
             </div>
 
-            {/* Right: Product Images */}
-            <div className="flex-1 justify-center lg:justify-end hidden lg:flex">
+            {/* Product Images */}
+            <div className="flex-1 justify-center lg:justify-end flex">
               <Image
                 src="/images/petfoodpak1.png"
                 alt="Skipper Dog Food"
                 width={288}
                 height={244}
-                className="object-cover rounded-lg w-72 aspect-288/244 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+                className="object-contain rounded-lg w-96 sm:w-72 aspect-288/244 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
                 style={{ height: 'auto' }}
                 sizes="(max-width: 640px) 192px, (max-width: 1024px) 288px, 288px"
                 priority
@@ -117,7 +117,6 @@ export default async function SkipperPage() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-sm font-bold mb-2">{t("feature1Title")}</h3>
               <p>{t("feature1Desc")}</p>
             </div>
 
@@ -132,7 +131,6 @@ export default async function SkipperPage() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-sm font-bold mb-2">{t("feature2Title")}</h3>
               <p>{t("feature2Desc")}</p>
             </div>
 
@@ -147,7 +145,6 @@ export default async function SkipperPage() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-sm font-bold mb-2">{t("feature3Title")}</h3>
               <p>{t("feature3Desc")}</p>
             </div>
 
@@ -162,7 +159,6 @@ export default async function SkipperPage() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-sm font-bold mb-2">{t("feature4Title")}</h3>
               <p>{t("feature4Desc")}</p>
             </div>
 
@@ -177,7 +173,6 @@ export default async function SkipperPage() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-sm font-bold mb-2">{t("feature5Title")}</h3>
               <p>{t("feature5Desc")}</p>
             </div>
           </div>
