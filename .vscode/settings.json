@@ -1,0 +1,21 @@
+// .vscode/settings.json
+{
+    "i18n-ally.localesPaths": [
+      "messages",  // 你的翻译文件目录
+      "messages/en.json",
+      "messages/ko.json",
+    ],
+    "i18n-ally.keystyle": "nested",  // 支持嵌套键（如 SkipperPage.metaTitle）
+    "i18n-ally.enabledFrameworks": ["next-intl"],  // 明确支持 next-intl
+    "i18n-ally.display.language": "en",  // 默认显示语言
+    "i18n-ally.enabledParsers": ["json"],
+    "i18n-ally.sourceLanguage": "en",  // 源语言（英文）
+    "i18n-ally.targetLanguages": ["ko"],  // 目标语言（韩文）
+    
+    // 支持你的文件结构
+    "i18n-ally.pathMatcher": "{locale}.json",
+    "i18n-ally.namespace": true,  // 支持命名空间（HomePage, SkipperPage）
+    
+    // 支持 _common.json
+    "i18n-ally.fullReloadOnChanged": true
+  }

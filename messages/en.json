@@ -1,10 +1,4 @@
 {
-  "HomePage": {
-    "title": "Welcome to Sealord Landing",
-    "description": "This is a simple test page for multi-language support.",
-    "greeting": "Hello!",
-    "switchLanguage": "Switch Language"
-  },
   "SkipperPage": {
     "metaTitle": "Sealord Skipper - Premium Pet Food | New Zealand Made",
     "metaDescription": "Discover Skipper - 100% New Zealand-made premium pet food with high-quality seafood protein. Register now for special offers and be the first to know when Skipper launches near you.",
