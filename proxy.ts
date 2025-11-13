@@ -8,7 +8,10 @@ export const routing = {
   locales: ['en', 'ko'] as const,
 
   // Used when no locale matches
-  defaultLocale: 'en' as const
+  defaultLocale: 'ko' as const,
+
+  // Always fall back to the default locale instead of sniffing Accept-Language
+  localeDetection: false as const
 } as const;
 
 export type LocaleTuple = typeof routing.locales[number];

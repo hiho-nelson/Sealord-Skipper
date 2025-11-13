@@ -7,6 +7,15 @@ export type AdminNotificationData = {
 };
 
 export function getAdminNotificationEmail(data: AdminNotificationData): string {
+  const submissionDate = new Intl.DateTimeFormat('en-NZ', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).format(new Date());
+
   return `
 <!DOCTYPE html>
 <html>
@@ -17,7 +26,7 @@ export function getAdminNotificationEmail(data: AdminNotificationData): string {
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background-color: #001a72; padding: 20px; text-align: center;">
-    <h1 style="color: #fff; margin: 0;">New Data Capture</h1>
+    <h1 style="color: #fff; margin: 0;">Sealord Skipper – New Online Submission</h1>
   </div>
   
   <div style="background-color: #f9f9f9; padding: 30px; margin-top: 20px;">
@@ -29,7 +38,7 @@ export function getAdminNotificationEmail(data: AdminNotificationData): string {
       <p style="margin: 5px 0;"><strong>Email:</strong> ${data.email}</p>
       <p style="margin: 5px 0;"><strong>Country:</strong> ${data.country}</p>
       ${data.company ? `<p style="margin: 5px 0;"><strong>Company:</strong> ${data.company}</p>` : ''}
-      <p style="margin: 5px 0;"><strong>Submission Date:</strong> ${new Date().toLocaleString()}</p>
+      <p style="margin: 5px 0;"><strong>Submission Date:</strong> ${submissionDate}</p>
     </div>
   </div>
 </body>
