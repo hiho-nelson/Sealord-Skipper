@@ -14,7 +14,8 @@
     },
     "messages": {
       "success": "Thank you! We will keep you informed.",
-      "error": "Something went wrong. Please try again."
+      "error": "Something went wrong. Please try again.",
+      "alreadyRegistered": "You are already registered. We will keep you informed when Skipper launches near you."
     },
     "validation": {
       "firstNameRequired": "First name is required",

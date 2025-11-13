@@ -5,8 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { useRecaptcha } from '@/lib/recaptcha/client';
 
-// Form data type
+// Form data type (without recaptchaToken for client-side validation)
 type FormData = {
   firstName: string;
   lastName: string;
@@ -15,18 +16,26 @@ type FormData = {
   country: string;
 };
 
+// Form submission type (with recaptchaToken)
+type FormSubmission = FormData & {
+  recaptchaToken: string;
+};
+
 export default function SkipperForm() {
   const t = useTranslations('SkipperPage');
   const common = useTranslations('_common');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  
+  const { execute, isReady, error: recaptchaError } = useRecaptcha('skipper_submit');
 
-  // Zod schema for form validation
+  // Zod schema for form validation (without recaptchaToken)
   const formSchema = z.object({
     firstName: z.string().min(1, common('form.validation.firstNameRequired')),
     lastName: z.string().min(1, common('form.validation.lastNameRequired')),
     company: z.string().optional(),
-    email: z.string().email(common('form.validation.emailInvalid')).min(1, common('form.validation.emailRequired')),
+    email: z.email(common('form.validation.emailInvalid')).min(1, common('form.validation.emailRequired')),
     country: z.string().min(1, common('form.validation.countryRequired')),
   });
   const {
@@ -39,27 +48,57 @@ export default function SkipperForm() {
   });
 
   const onSubmit = async (data: FormData) => {
+    if (recaptchaError) {
+      alert('reCAPTCHA is not configured correctly. Please try again later.');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrorMessage(null);
 
     try {
-      // TODO: Replace with actual API endpoint
-      const response = await fetch('/api/skipper/signup', {
+      // Execute reCAPTCHA and get token
+      const recaptchaToken = await execute({
+        action: 'skipper_submit',
+      });
+
+      const formDataWithToken: FormSubmission = {
+        ...data,
+        recaptchaToken,
+      };
+
+      const response = await fetch('/api/skipper/dataCapture', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formDataWithToken),
       });
 
       if (response.ok) {
         setSubmitStatus('success');
         reset();
       } else {
+        // Try to get error code from response and map to translated message
+        try {
+          const errorData = await response.json();
+          if (errorData.code === 'ALREADY_REGISTERED') {
+            setErrorMessage(common('form.messages.alreadyRegistered'));
+          } else if (errorData.error) {
+            setErrorMessage(errorData.error);
+          } else {
+            setErrorMessage(common('form.messages.error'));
+          }
+        } catch {
+          // If we can't parse the error, use default message
+          setErrorMessage(common('form.messages.error'));
+        }
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Form submission error:', error);
+      setErrorMessage(common('form.messages.error'));
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -80,7 +119,7 @@ export default function SkipperForm() {
 
       {submitStatus === 'error' && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-800">
-          {common('form.messages.error')}
+          {errorMessage || common('form.messages.error')}
         </div>
       )}
 
@@ -172,10 +211,14 @@ export default function SkipperForm() {
 
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isReady}
           className="w-full bg-gray-800 text-white py-3 px-6 hover:bg-gray-900 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed  font-nunito font-bold"
         >
-          {isSubmitting ? common('form.actions.submitting') : common('form.actions.submit')}
+          {isSubmitting
+            ? common('form.actions.submitting')
+            : !isReady
+            ? 'Preparing reCAPTCHA...'
+            : common('form.actions.submit')}
         </button>
         <p className="text-xs text-gray-500 text-center">
           {common('form.actions.mandatoryNote')}

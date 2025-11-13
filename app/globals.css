@@ -56,3 +56,10 @@ body {
     animation: boat-bob 3s ease-in-out infinite;
   }
 }
+
+/* Hide reCAPTCHA badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
